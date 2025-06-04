@@ -32,6 +32,7 @@ export default function createStyles(colorScheme = Appearance.getColorScheme()) 
     container: {
       flex: 1,
       padding: 16,
+      marginTop: 30,
       backgroundColor: colors.background,
     },
     title: {
@@ -141,7 +142,7 @@ export default function createStyles(colorScheme = Appearance.getColorScheme()) 
     logo: {
       width: 50,
       height: 50,
-      alignSelf: 'center',
+      alignSelf: 'left',
       marginBottom: 10,
       resizeMode: 'contain',
     },
@@ -226,6 +227,28 @@ export default function createStyles(colorScheme = Appearance.getColorScheme()) 
       textAlign: 'center',
       color: '#fff',
       textDecorationLine: 'underline',
+    },
+
+    searchBarContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#f0f0f0',
+        borderRadius: 25,
+        paddingHorizontal: 12,
+        paddingVertical: 1,
+        marginBottom: 16,
+        borderWidth: 1,
+        borderColor: '#ccc',
+    },
+
+    searchIcon: {
+        marginRight: 8,
+    },
+
+    searchInput: {
+        flex: 1,
+        fontSize: 16,
+        color: '#000',
     },
   });
 }

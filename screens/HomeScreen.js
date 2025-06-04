@@ -4,7 +4,7 @@ import { useNavigation, useTheme } from '@react-navigation/native';
 import createStyles from '../styles/styles';
 import { TouchableOpacity } from 'react-native';
 import { Image } from 'react-native';
-import IconImage from '../assets/small-icon.png';
+import IconImage from '../assets/icon.png';
 
 const mockPosts = [
   { id: '1', user: 'TraderJoe', text: 'Sold TSLA at +25% profit 💰' },
@@ -26,18 +26,6 @@ export default function HomeScreen() {
         source={IconImage}
         style={styles.logo}
       />
-      <Text style={styles.title}>
-        Welcome to Traderizz
-      </Text>
-
-      <View style={styles.buttonRow}>
-        <TouchableOpacity style={styles.homeScreenButtons} onPress={() => navigation.navigate('Dashboard')}>
-          <Text style={styles.homeScreenButtonText}>Dashboard</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.homeScreenButtons} onPress={() => navigation.navigate('Settings')}>
-          <Text style={styles.homeScreenButtonText}>Settings</Text>
-        </TouchableOpacity>
-      </View>
 
       <Text style={[styles.sectionTitle]}>
         Recent Trader Posts

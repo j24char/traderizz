@@ -4,9 +4,24 @@ import SignInScreen from './screens/SignInScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import DashboardScreen from './screens/Dashboard';
 import HomeScreen from './screens/HomeScreen';
+import SearchScreen from './screens/SearchScreen';
+import SymbolScreen from './screens/SymbolScreen';
 import { DefaultTheme, DarkTheme, NavigationContainer } from '@react-navigation/native';
 
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+
+function SearchStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="SearchMain" component={SearchScreen} />
+      <Stack.Screen name="Symbol" component={SymbolScreen} />
+    </Stack.Navigator>
+  );
+}
 
 const MyLightTheme = {
   ...DefaultTheme,
@@ -36,13 +51,43 @@ const MyDarkTheme = {
 
 export default function App() {
   return (
+    // <NavigationContainer>
+    //   <Stack.Navigator initialRouteName="HomeScreen">
+    //     <Stack.Screen name="HomeScreen" component={HomeScreen} />
+    //     <Stack.Screen name="SignIn" component={SignInScreen} />
+    //     <Stack.Screen name="SignUp" component={SignUpScreen} />
+    //     <Stack.Screen name="Dashboard" component={DashboardScreen} />
+    //   </Stack.Navigator>
+    // </NavigationContainer>
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="HomeScreen">
-        <Stack.Screen name="HomeScreen" component={HomeScreen} />
-        <Stack.Screen name="SignIn" component={SignInScreen} />
-        <Stack.Screen name="SignUp" component={SignUpScreen} />
-        <Stack.Screen name="Dashboard" component={DashboardScreen} />
-      </Stack.Navigator>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          headerShown: false, // Hides the top header
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            if (route.name === 'Home') {
+              iconName = focused ? 'home' : 'home-outline';
+            } else if (route.name === 'Dashboard') {
+              iconName = focused ? 'analytics' : 'analytics-outline';
+            } else if (route.name === 'Search') {
+              iconName = focused ? 'search' : 'search-outline';
+            }
+
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+          tabBarActiveTintColor: '#39db7a',
+          tabBarInactiveTintColor: 'gray',
+          tabBarStyle: {
+            paddingBottom: 5,
+            height: 60,
+          },
+        })}
+      >
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Dashboard" component={DashboardScreen} />
+        <Tab.Screen name="Search" component={SearchStack} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }
