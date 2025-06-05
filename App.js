@@ -5,7 +5,8 @@ import SignUpScreen from './screens/SignUpScreen';
 import DashboardScreen from './screens/Dashboard';
 import HomeScreen from './screens/HomeScreen';
 import SearchScreen from './screens/SearchScreen';
-import SymbolScreen from './screens/SymbolScreen';
+ import SymbolScreen from './screens/SymbolScreen';
+
 import { DefaultTheme, DarkTheme, NavigationContainer } from '@react-navigation/native';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -51,14 +52,7 @@ const MyDarkTheme = {
 
 export default function App() {
   return (
-    // <NavigationContainer>
-    //   <Stack.Navigator initialRouteName="HomeScreen">
-    //     <Stack.Screen name="HomeScreen" component={HomeScreen} />
-    //     <Stack.Screen name="SignIn" component={SignInScreen} />
-    //     <Stack.Screen name="SignUp" component={SignUpScreen} />
-    //     <Stack.Screen name="Dashboard" component={DashboardScreen} />
-    //   </Stack.Navigator>
-    // </NavigationContainer>
+
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={({ route }) => ({
