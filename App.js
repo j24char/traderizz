@@ -1,11 +1,12 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import SignInScreen from './screens/SignInScreen';
-import SignUpScreen from './screens/SignUpScreen';
 import DashboardScreen from './screens/Dashboard';
 import HomeScreen from './screens/HomeScreen';
 import SearchScreen from './screens/SearchScreen';
- import SymbolScreen from './screens/SymbolScreen';
+import SymbolScreen from './screens/SymbolScreen';
+import AuthScreen from './screens/AuthScreen';
+import SignInScreen from './screens/SignInScreen';
+import { supabase } from './lib/supabase';
 
 import { DefaultTheme, DarkTheme, NavigationContainer } from '@react-navigation/native';
 
@@ -15,11 +16,27 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
+const isUserLoggedIn = async () => {
+  const { data } = await supabase.auth.getSession();
+  return data.session !== null;
+};
+
+
 function SearchStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="SearchMain" component={SearchScreen} />
       <Stack.Screen name="Symbol" component={SymbolScreen} />
+    </Stack.Navigator>
+  );
+}
+
+function ProfileStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      
+      <Stack.Screen name="SignIn" component={SignInScreen} />
+      {/* Add more profile-related screens later if needed */}
     </Stack.Navigator>
   );
 }
@@ -66,6 +83,8 @@ export default function App() {
               iconName = focused ? 'analytics' : 'analytics-outline';
             } else if (route.name === 'Search') {
               iconName = focused ? 'search' : 'search-outline';
+            } else if (route.name === 'Profile') {
+              iconName = focused ? 'person' : 'person-outline';
             }
 
             return <Ionicons name={iconName} size={size} color={color} />;
@@ -81,6 +100,22 @@ export default function App() {
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Dashboard" component={DashboardScreen} />
         <Tab.Screen name="Search" component={SearchStack} />
+        <Tab.Screen
+          name="Profile"
+          component={ProfileStack}
+          listeners={({ navigation }) => ({
+            tabPress: async () => {
+              const loggedIn = await isUserLoggedIn();
+              if (!loggedIn) {
+                // This will always show the Auth screen as the first screen in the stack
+                navigation.navigate('SignIn', { screen: 'SignIn' });
+              } else {
+                // Later, replace this with profile/dashboard
+                navigation.navigate('SignIn', { screen: 'SignIn' });
+              }
+            },
+          })}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );

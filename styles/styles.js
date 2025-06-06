@@ -134,9 +134,19 @@ export default function createStyles(colorScheme = Appearance.getColorScheme()) 
       paddingVertical: 12,
       elevation: 5,
     },
+    signInButton: {
+      backgroundColor: primary,
+      borderRadius: 30,
+      paddingHorizontal: 20,
+      paddingVertical: 12,
+      marginBottom: 20,
+      marginTop: 20,
+      elevation: 5,
+    },
     addButtonText: {
       color: '#fff',
       fontSize: 16,
+      textAlign: 'center',
     },
 
     logo: {

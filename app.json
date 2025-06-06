@@ -24,7 +24,7 @@
       "package": "com.anonymous.traderizz"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/splash-icon.png"
     },
     "plugins": [
       "expo-dev-client"
