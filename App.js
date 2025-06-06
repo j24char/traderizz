@@ -4,7 +4,6 @@ import DashboardScreen from './screens/Dashboard';
 import HomeScreen from './screens/HomeScreen';
 import SearchScreen from './screens/SearchScreen';
 import SymbolScreen from './screens/SymbolScreen';
-import AuthScreen from './screens/AuthScreen';
 import SignInScreen from './screens/SignInScreen';
 import { supabase } from './lib/supabase';
 
