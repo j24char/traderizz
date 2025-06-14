@@ -5,6 +5,7 @@ import HomeScreen from './screens/HomeScreen';
 import SearchScreen from './screens/SearchScreen';
 import SymbolScreen from './screens/SymbolScreen';
 import SignInScreen from './screens/SignInScreen';
+import ProfileScreen from './screens/ProfileScreen';
 import { supabase } from './lib/supabase';
 
 import { DefaultTheme, DarkTheme, NavigationContainer } from '@react-navigation/native';
@@ -35,6 +36,7 @@ function ProfileStack() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       
       <Stack.Screen name="SignIn" component={SignInScreen} />
+      <Stack.Screen name="ProfileMain" component={ProfileScreen} />
       {/* Add more profile-related screens later if needed */}
     </Stack.Navigator>
   );
@@ -103,14 +105,14 @@ export default function App() {
           name="Profile"
           component={ProfileStack}
           listeners={({ navigation }) => ({
-            tabPress: async () => {
+            tabPress: async (e) => {
               const loggedIn = await isUserLoggedIn();
               if (!loggedIn) {
                 // This will always show the Auth screen as the first screen in the stack
-                navigation.navigate('SignIn', { screen: 'SignIn' });
+                navigation.navigate('Profile', { screen: 'SignIn' });
               } else {
                 // Later, replace this with profile/dashboard
-                navigation.navigate('SignIn', { screen: 'SignIn' });
+                navigation.navigate('Profile', { screen: 'ProfileMain' });
               }
             },
           })}

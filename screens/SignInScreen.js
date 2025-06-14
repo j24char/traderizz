@@ -11,8 +11,10 @@ import { useNavigation, useTheme } from '@react-navigation/native';
 import createStyles from '../styles/styles';
 import { supabase } from '../lib/supabase';
 import SignUpScreen from './SignUpScreen';
+import ProfileScreen from './ProfileScreen';
 import IconImage from '../assets/icon.png';
 import { Image } from 'react-native';
+
 
 
 export default function SignInScreen() {
@@ -30,13 +32,13 @@ export default function SignInScreen() {
         Alert.alert("Error", error.message);
       } else {
         Alert.alert("Signed in!");
-
-
+        navigation.navigate('Profile', { screen: 'Profile' }); 
       }
     } catch (err) {
       Alert.alert("Unexpected error", err.message || String(err));
     }
   };
+
 
 
   return (
