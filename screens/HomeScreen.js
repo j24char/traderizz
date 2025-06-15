@@ -8,6 +8,7 @@ import { useTheme, useNavigation } from '@react-navigation/native';
 import { supabase } from '../lib/supabase';
 import createStyles from '../styles/styles';
 import * as FileSystem from 'expo-file-system';
+import { Buffer } from 'buffer';
 
 export default function HomeScreen() {
   const { colors } = useTheme();
@@ -46,26 +47,6 @@ export default function HomeScreen() {
     }
   }
 
-
-  // const pickImage = async () => {
-  //   const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-  //   if (!granted) {
-  //     Alert.alert('Permission required', 'We need access to your photo library.');
-  //     return;
-  //   }
-
-  //   const result = await ImagePicker.launchImageLibraryAsync({
-  //     //mediaTypes: ImagePicker.MediaTypeOptions.Images,
-  //     mediaTypes: ImagePicker.MediaType.Images,
-  //     allowsEditing: true,
-  //     aspect: [4, 3],
-  //     quality: 0.7,
-  //   });
-
-  //   if (!result.canceled && result.assets.length > 0) {
-  //     setSelectedImage(result.assets[0].uri);
-  //   }
-  // };
   const pickImage = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
@@ -86,81 +67,6 @@ export default function HomeScreen() {
     }
   };
 
-  const uploadPost = async () => {
-    // Allow empty image, just skip upload step
-    let imageUrl = null;
-
-    // if (selectedImage) {
-    //   // Upload image logic
-    //   const fileName = `${user.id}/${Date.now()}.jpg`;
-    //   const file = await fetch(selectedImage);
-    //   const blob = await file.blob();
-
-    //   const { error: uploadError } = await supabase.storage
-    //     .from('post-images')
-    //     .upload(fileName, blob, { upsert: true });
-
-    //   if (uploadError) {
-    //     Alert.alert('Image upload failed', uploadError.message);
-    //     return;
-    //   }
-
-    //   const { data: publicUrl } = supabase.storage
-    //     .from('post-images')
-    //     .getPublicUrl(fileName);
-
-    //   imageUrl = publicUrl.publicUrl;
-    // }
-    if (selectedImage) {
-      try {
-        const fileExt = selectedImage.split('.').pop();
-        const fileName = `${user.id}/${Date.now()}.${fileExt}`;
-
-        // Read file into base64 string
-        const base64 = await FileSystem.readAsStringAsync(selectedImage, {
-          encoding: FileSystem.EncodingType.Base64,
-        });
-
-        const { error: uploadError } = await supabase.storage
-          .from('post-images')
-          .upload(fileName, Buffer.from(base64, 'base64'), {
-            contentType: 'image/jpeg',
-            upsert: true,
-          });
-
-        if (uploadError) throw uploadError;
-
-        const { data: publicUrl } = supabase
-          .storage
-          .from('post-images')
-          .getPublicUrl(fileName);
-
-        imageUrl = publicUrl.publicUrl;
-      } catch (error) {
-        Alert.alert('Image upload failed', error.message);
-        setUploading(false);
-        return;
-      }
-    }
-
-    // Now insert post even if imageUrl is null
-    const { error: insertError } = await supabase.from('posts').insert([
-      {
-        user_id: user.id,
-        caption,
-        image_url: imageUrl, // may be null
-      }
-    ]);
-
-    if (insertError) {
-      Alert.alert('Post failed', insertError.message);
-    } else {
-      Alert.alert('Post created!');
-      closeModal(); // Or clear form
-    }
-
-  };
-
   const handleNewPost = async () => {
     const { data } = await supabase.auth.getUser();
     if (data?.user) {
@@ -174,7 +80,11 @@ export default function HomeScreen() {
   const renderPost = ({ item }) => (
     <View style={[localStyles.postCard, { backgroundColor: colors.card }]}>
       {item.image_url ? (
-        <Image source={{ uri: item.image_url }} style={localStyles.postImage} />
+        <Image
+          source={{ uri: item.image_url }}
+          style={localStyles.postImage}
+          onError={() => console.warn('Image failed to load:', item.image_url)}
+        />
       ) : null}
       <Text style={{ color: colors.text, fontWeight: 'bold' }}>
         {item.user_id}
@@ -186,44 +96,53 @@ export default function HomeScreen() {
   const handlePost = async () => {
     const { data: { user } } = await supabase.auth.getUser();
 
-    console.log("Selected image URI:", selectedImage);
-
     if (!user) {
       Alert.alert('Not signed in');
       return;
     }
 
     setUploading(true);
-    
+
     let imageUrl = null;
 
     if (selectedImage) {
       try {
-        const fileExt = selectedImage.split('.').pop();
+        const fileExt = selectedImage.split('.').pop().split('?')[0];
         const fileName = `${user.id}/${Date.now()}.${fileExt}`;
-        const file = await fetch(selectedImage);
-        const blob = await file.blob();
+        const filePath = selectedImage;
+
+        // Read file as base64 string
+        const base64 = await FileSystem.readAsStringAsync(filePath, {
+          encoding: FileSystem.EncodingType.Base64,
+        });
+
+        // Convert base64 to a Blob-like Uint8Array
+        const fileBuffer = Buffer.from(base64, 'base64');
 
         const { error: uploadError } = await supabase.storage
           .from('post-images')
-          .upload(fileName, blob, { upsert: true });
+          .upload(fileName, fileBuffer, {
+            contentType: 'image/jpeg',
+            upsert: true,
+          });
 
         if (uploadError) throw uploadError;
 
-        const { data: publicUrl } = supabase
+        const { data: publicData, error: publicError } = supabase
           .storage
           .from('post-images')
           .getPublicUrl(fileName);
 
-        imageUrl = publicUrl.publicUrl;
+        if (publicError) throw publicError;
+
+        imageUrl = publicData.publicUrl;
       } catch (error) {
+        console.error("Image upload failed:", error.message);
         Alert.alert('Image upload failed', error.message);
         setUploading(false);
-        fetchPosts();
         return;
       }
     }
-
     const { error: insertError } = await supabase.from('posts').insert([
       {
         user_id: user.id,
@@ -239,7 +158,7 @@ export default function HomeScreen() {
       setModalVisible(false);
       setCaption('');
       setSelectedImage(null);
-      // optionally: refreshFeed();
+      fetchPosts(); // refresh feed
     }
 
     setUploading(false);
