@@ -21,6 +21,7 @@ export default function HomeScreen() {
   const [posts, setPosts] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [fullScreenImage, setFullScreenImage] = useState(null);
 
 
   useEffect(() => {
@@ -80,12 +81,11 @@ export default function HomeScreen() {
   const renderPost = ({ item }) => (
     <View style={[localStyles.postCard, { backgroundColor: colors.card }]}>
       {item.image_url ? (
-        <Image
-          source={{ uri: item.image_url }}
-          style={localStyles.postImage}
-          onError={() => console.warn('Image failed to load:', item.image_url)}
-        />
+        <TouchableOpacity onPress={() => setFullScreenImage(item.image_url)}>
+          <Image source={{ uri: item.image_url }} style={localStyles.postImage} />
+        </TouchableOpacity>
       ) : null}
+
       <Text style={{ color: colors.text, fontWeight: 'bold' }}>
         {item.user_id}
       </Text>
@@ -201,6 +201,24 @@ export default function HomeScreen() {
         <Button title="Cancel" onPress={() => setModalVisible(false)} />
       </View>
     </Modal>
+    <Modal
+      visible={!!fullScreenImage}
+      transparent
+      animationType="fade"
+      onRequestClose={() => setFullScreenImage(null)}
+    >
+      <TouchableOpacity
+        style={localStyles.fullScreenContainer}
+        onPress={() => setFullScreenImage(null)}
+        activeOpacity={1}
+      >
+        <Image
+          source={{ uri: fullScreenImage }}
+          style={localStyles.fullScreenImage}
+          resizeMode="contain"
+        />
+      </TouchableOpacity>
+    </Modal>
 
     </View>
   );
@@ -250,4 +268,15 @@ const localStyles = StyleSheet.create({
     height: 200,
     borderRadius: 10,
   },
+  fullScreenContainer: {
+    flex: 1,
+    backgroundColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  fullScreenImage: {
+    width: '100%',
+    height: '100%',
+  },
+
 });
