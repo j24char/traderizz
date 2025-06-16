@@ -37,7 +37,16 @@ export default function HomeScreen() {
   async function fetchPosts() {
     const { data, error } = await supabase
       .from('posts')
-      .select('id, caption, image_url, created_at, user_id') // No join
+      .select(`
+        id,
+        caption,
+        image_url,
+        created_at,
+        user_id,
+        profiles (
+          username
+        )
+      `)
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -87,7 +96,11 @@ export default function HomeScreen() {
       ) : null}
 
       <Text style={{ color: colors.text, fontWeight: 'bold' }}>
-        {item.user_id}
+        {item.profiles?.username ?? 'Anonymous'}
+      </Text>
+
+      <Text style={{ color: colors.text, fontSize: 12 }}>
+        {new Date(item.created_at).toLocaleString()}
       </Text>
       <Text style={{ color: colors.text }}>{item.caption}</Text>
     </View>
