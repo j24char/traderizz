@@ -153,7 +153,7 @@ export default function createStyles(colorScheme = Appearance.getColorScheme()) 
       width: 50,
       height: 50,
       alignSelf: 'left',
-      marginBottom: 10,
+      marginBottom: 1,
       resizeMode: 'contain',
     },
 
