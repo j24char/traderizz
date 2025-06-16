@@ -9,6 +9,8 @@ import { supabase } from '../lib/supabase';
 import createStyles from '../styles/styles';
 import * as FileSystem from 'expo-file-system';
 import { Buffer } from 'buffer';
+import { Ionicons } from '@expo/vector-icons';
+import IconImage from '../assets/icon.png';
 
 export default function HomeScreen() {
   const { colors } = useTheme();
@@ -180,12 +182,10 @@ export default function HomeScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background, flex: 1 }]}>
-      <TouchableOpacity
-        style={localStyles.newPostButton}
-        onPress={handleNewPost}
-      >
-        <Text style={localStyles.buttonText}>+ New Post</Text>
-      </TouchableOpacity>
+      <Image
+        source={IconImage}
+        style={styles.logo}
+      />
 
       <FlatList
         data={posts}
@@ -193,6 +193,13 @@ export default function HomeScreen() {
         renderItem={renderPost}
         contentContainerStyle={{ paddingBottom: 100 }}
       />
+
+      <TouchableOpacity
+        style={localStyles.floatingButton}
+        onPress={handleNewPost}
+      >
+        <Ionicons name="add" size={30} color="#fff" />
+      </TouchableOpacity>
 
     <Modal visible={modalVisible} animationType="slide">
       <View style={{ padding: 20 }}>
@@ -214,6 +221,7 @@ export default function HomeScreen() {
         <Button title="Cancel" onPress={() => setModalVisible(false)} />
       </View>
     </Modal>
+
     <Modal
       visible={!!fullScreenImage}
       transparent
@@ -245,6 +253,22 @@ const localStyles = StyleSheet.create({
     marginVertical: 10,
     alignItems: 'center',
     marginHorizontal: 20,
+  },
+  floatingButton: {
+    position: 'absolute',
+    right: 20,
+    bottom: 30,
+    backgroundColor: '#39db7a',
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 5, // for Android shadow
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
   },
   buttonText: {
     color: '#fff',
