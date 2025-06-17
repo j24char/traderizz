@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DashboardScreen from './screens/Dashboard';
 import HomeScreen from './screens/HomeScreen';
@@ -69,6 +69,34 @@ const MyDarkTheme = {
 };
 
 export default function App() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // 1. Check existing session on app startup
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        setUser(session.user); // <- your logic to store user in state
+      }
+    };
+
+    checkSession();
+
+    // 2. Listen for auth state changes (login/logout/refresh)
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log('Auth event:', event);
+      if (session) {
+        setUser(session.user); // <- update user on login/refresh
+      } else {
+        setUser(null); // <- clear user on logout
+      }
+    });
+
+    return () => {
+      authListener.subscription?.unsubscribe(); // clean up listener
+    };
+  }, []);
+
   return (
 
     <NavigationContainer>
