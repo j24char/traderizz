@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, Button, Image, Alert, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, Alert, ActivityIndicator } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { supabase } from '../lib/supabase';
 import { useTheme } from '@react-navigation/native';
@@ -141,7 +141,13 @@ export default function ProfileScreen() {
           style={{ width: 100, height: 100, borderRadius: 50, marginBottom: 10 }}
         />
       )}
-      <Button title="Change Avatar" onPress={pickAvatar} />
+      {/* <Button title="Change Avatar" onPress={pickAvatar} /> */}
+      <TouchableOpacity
+        style={styles.signInButton}
+        onPress={pickAvatar}
+      >
+        <Text style={styles.addButtonText}>Change Avatar</Text>
+      </TouchableOpacity>
 
       <Text style={{ color: colors.text, marginTop: 20 }}>Username</Text>
       <TextInput
@@ -183,7 +189,13 @@ export default function ProfileScreen() {
         {email}
       </Text>
 
-      <Button title="Save Profile" onPress={saveProfile} disabled={loading} />
+      <TouchableOpacity
+        style={styles.signInButton}
+        onPress={saveProfile}
+      >
+        <Text style={styles.addButtonText}>Save Profile</Text>
+      </TouchableOpacity>
+{/* <Button title="Save Profile" onPress={saveProfile} disabled={loading} /> */}
     </View>
   );
 }
