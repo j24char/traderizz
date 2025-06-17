@@ -182,10 +182,7 @@ export default function HomeScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background, flex: 1 }]}>
-      <Image
-        source={IconImage}
-        style={styles.logo}
-      />
+      <Image source={IconImage} style={styles.logo} />
 
       <FlatList
         data={posts}
@@ -203,22 +200,46 @@ export default function HomeScreen() {
 
     <Modal visible={modalVisible} animationType="slide">
       <View style={{ padding: 20 }}>
-        <Text style={{ fontSize: 20, marginBottom: 10 }}>New Post</Text>
+        <Image source={IconImage} style={styles.logo} />
+        <Text style={styles.header}>New Post</Text>
         <TextInput
-          placeholder="Write a caption..."
+          placeholder='Write a comment...'
           value={caption}
           onChangeText={setCaption}
-          style={{ borderWidth: 1, borderColor: '#ccc', padding: 10, marginBottom: 10 }}
+          style={{ borderWidth: 1, color: colors.text, borderColor: '#ccc', padding: 10, marginBottom: 10 }}
+          placeholderTextColor={'#ccc'}
         />
-        <Button title="Pick Image" onPress={pickImage} />
+        <TouchableOpacity
+          style={styles.signInButton}
+          onPress={pickImage}
+        >
+          <Text style={styles.addButtonText}>Pick Image</Text>
+        </TouchableOpacity>
+
         {selectedImage && (
           <Image
             source={{ uri: selectedImage }}
             style={{ width: 200, height: 200, marginVertical: 10 }}
           />
         )}
-        <Button title={uploading ? 'Posting...' : 'Post'} onPress={handlePost} disabled={uploading} />
-        <Button title="Cancel" onPress={() => setModalVisible(false)} />
+
+        <TouchableOpacity
+          style={styles.signInButton}
+          onPress={handlePost}
+        >
+          <Text style={styles.addButtonText}>+ Post</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity
+          style={styles.signInButton}
+          onPress={() => {
+            setModalVisible(false);
+            setCaption('');
+            setSelectedImage(null);
+          }}
+        >
+          <Text style={styles.addButtonText}>Cancel</Text>
+        </TouchableOpacity>
       </View>
     </Modal>
 
