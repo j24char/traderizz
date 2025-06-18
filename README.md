@@ -1,4 +1,4 @@
-# 📈 Traderizz
+# Traderizz
 
 **Traderizz** is a social app for traders to share and reflect on their journey. Whether you're in the green or red, Traderizz is your space to track trades, celebrate wins, and learn from losses.
 
@@ -6,7 +6,7 @@
 
 ---
 
-## ✨ Features
+## Features
 
 - **Main Feed**  
   Users can post profit/loss (P/L) screenshots with captions to share trade results and experiences.
