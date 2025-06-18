@@ -2,24 +2,24 @@
 
 **Traderizz** is a social app for traders to share and reflect on their journey. Whether you're in the green or red, Traderizz is your space to track trades, celebrate wins, and learn from losses.
 
-![Traderizz Logo](./assets/icon.png)
+![Traderizz Logo](./assets/logo.png)
 
 ---
 
 ## ✨ Features
 
-- 📰 **Main Feed**  
+- **Main Feed**  
   Users can post profit/loss (P/L) screenshots with captions to share trade results and experiences.
 
-- 📊 **Dashboard**  
+- **Dashboard**  
   A personalized dashboard for tracking past trades, reviewing performance, and staying accountable.
 
-- 🔍 **Search**  
+- **Search**  
   Instantly look up stock symbols and explore potential trades with real-time data.
 
 ---
 
-## 📸 Preview
+## Preview
 
 | Feed Screen | Plot | Search |
 |------------|------------|-----------|
@@ -27,7 +27,7 @@
 
 ---
 
-## 🛠 Prerequisites
+## Prerequisites
 
 To run Traderizz locally, ensure you have the following installed:
 
@@ -39,7 +39,7 @@ To run Traderizz locally, ensure you have the following installed:
 
 ---
 
-## 🔧 Setup
+## Setup
 
 1. **Clone the repository**
 
