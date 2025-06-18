@@ -2,7 +2,7 @@
 
 **Traderizz** is a social app for traders to share and reflect on their journey. Whether you're in the green or red, Traderizz is your space to track trades, celebrate wins, and learn from losses.
 
-![Traderizz Logo](./assets/logo.png)
+![Traderizz Logo](./assets/icon.png)
 
 ---
 
@@ -21,9 +21,9 @@
 
 ## 📸 Preview
 
-| Feed Screen | Post Modal | Dashboard |
+| Feed Screen | Plot | Search |
 |------------|------------|-----------|
-| ![Feed](./assets/feed.png) | ![Post Modal](./assets/newpost.png) | ![Dashboard](./assets/dashboard.png) |
+| ![Feed](./assets/feed.jpeg) | ![Plot](./assets/plot.jpeg) | ![Search](./assets/search.jpeg) |
 
 ---
 
