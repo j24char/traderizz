@@ -23,7 +23,7 @@
 
 | Feed Screen | Plot | Search |
 |------------|------------|-----------|
-| ![Feed](./assets/feed.jpeg) | ![Plot](./assets/plot.jpeg) | ![Search](./assets/search.jpeg) |
+| ![Feed](./assets/feed.png) | ![Plot](./assets/plot.png) | ![Search](./assets/search.png) |
 
 ---
 
