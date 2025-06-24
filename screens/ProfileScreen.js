@@ -29,6 +29,13 @@ export default function ProfileScreen() {
   useEffect(() => {
     loadProfile();
   }, []);
+
+  useEffect(() => {
+    if (avatarUrl) {
+      console.log("New image URL:", avatarUrl);
+    }
+  }, [avatarUrl]);
+
   
   async function loadProfile() {
     const {
@@ -74,6 +81,7 @@ export default function ProfileScreen() {
     });
 
     if (!result.canceled && result.assets && result.assets.length > 0) {
+      setSelectedImage(result.assets[0].uri); // save for immediate use
       uploadAvatar(result.assets[0].uri);
     }
   };
@@ -137,6 +145,7 @@ export default function ProfileScreen() {
     }
 
     setAvatarUrl(imageUrl);
+    await loadProfile();
     setLoading(false);
   };
 
@@ -146,8 +155,6 @@ export default function ProfileScreen() {
     try {
       const { data: { user }, error: authError } = await supabase.auth.getUser();
       if (authError || !user) throw new Error('User not found');
-
-      let finalAvatarUrl = avatarUrl; // fallback to existing if not updated
 
       // Now save profile info
       const updates = {
@@ -186,7 +193,12 @@ export default function ProfileScreen() {
       </Text>
 
       <TouchableOpacity onPress={pickAvatar}>
-        {avatarUrl ? (
+        {selectedImage ? (
+          <Image 
+            source={{ uri: selectedImage }}
+            style={{ width: 100, height: 100, borderRadius: 50, marginBottom: 10 }}
+          />
+        ) : avatarUrl ? (
           <Image
             source={{ uri: avatarUrl }}
             style={{ width: 100, height: 100, borderRadius: 50, marginBottom: 10 }}
