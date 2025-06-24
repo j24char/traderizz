@@ -209,19 +209,18 @@ export default function HomeScreen() {
           style={{ borderWidth: 1, color: colors.text, borderColor: '#ccc', padding: 10, marginBottom: 10 }}
           placeholderTextColor={'#ccc'}
         />
-        <TouchableOpacity
-          style={styles.signInButton}
-          onPress={pickImage}
-        >
-          <Text style={styles.addButtonText}>Pick Image</Text>
-        </TouchableOpacity>
-
         {selectedImage && (
           <Image
             source={{ uri: selectedImage }}
             style={{ width: 200, height: 200, marginVertical: 10 }}
           />
         )}
+        <TouchableOpacity
+          style={styles.signInButton}
+          onPress={pickImage}
+        >
+          <Text style={styles.addButtonText}>Pick Image</Text>
+        </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.signInButton}

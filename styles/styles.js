@@ -14,6 +14,7 @@ const lightColors = {
   text: '#000',
   card: '#f0f0f0',
   border: '#ccc',
+  iconColor: '#39db7a',
 };
 
 const darkColors = {
@@ -21,6 +22,7 @@ const darkColors = {
   text: '#fff',
   card: '#1e1e1e',
   border: '#333',
+  iconColor: '#39db7a',
 };
 
 export default function createStyles(colorScheme = Appearance.getColorScheme()) {
