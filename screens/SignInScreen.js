@@ -32,7 +32,7 @@ export default function SignInScreen() {
         Alert.alert("Error", error.message);
       } else {
         Alert.alert("Signed in!");
-        navigation.navigate('Profile', { screen: 'Profile' }); 
+        navigation.navigate('Profile');
       }
     } catch (err) {
       Alert.alert("Unexpected error", err.message || String(err));

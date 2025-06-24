@@ -178,6 +178,14 @@ export default function ProfileScreen() {
     }
   };
 
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      Alert.alert('Logout Error', error.message);
+    } else {
+      navigation.navigate('SignIn'); // Or 'Home' or wherever your login screen is
+    }
+  };
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
@@ -265,6 +273,13 @@ export default function ProfileScreen() {
         onPress={saveProfile}
       >
         <Text style={styles.addButtonText}>Save Profile</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[styles.signInButton, { backgroundColor: 'lightcoral', marginTop: 10 }]}
+        onPress={handleLogout}
+      >
+        <Text style={[styles.addButtonText, { color: 'white' }]}>Log Out</Text>
       </TouchableOpacity>
 
     </View>
