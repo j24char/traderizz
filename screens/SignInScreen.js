@@ -4,14 +4,12 @@ import {
   View,
   Text,
   TextInput,
-  Button,
   TouchableOpacity,
 } from 'react-native';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import createStyles from '../styles/styles';
 import { supabase } from '../lib/supabase';
-import SignUpScreen from './SignUpScreen';
-import ProfileScreen from './ProfileScreen';
+
 import IconImage from '../assets/icon.png';
 import { Image } from 'react-native';
 
@@ -31,8 +29,9 @@ export default function SignInScreen() {
       if (error) {
         Alert.alert("Error", error.message);
       } else {
-        Alert.alert("Signed in!");
-        navigation.navigate('Profile');
+        
+        navigation.navigate('Profile', { screen: 'ProfileMain' });
+
       }
     } catch (err) {
       Alert.alert("Unexpected error", err.message || String(err));

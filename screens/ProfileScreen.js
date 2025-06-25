@@ -196,31 +196,33 @@ export default function ProfileScreen() {
         style={styles.logo}
       />
       {/* Page Title */}
-      <Text style={[styles.sectionTitle]}>
+      <Text style={[styles.header]}>
         Edit Profile
       </Text>
-
-      <TouchableOpacity onPress={pickAvatar}>
-        {selectedImage ? (
-          <Image 
-            source={{ uri: selectedImage }}
-            style={{ width: 100, height: 100, borderRadius: 50, marginBottom: 10 }}
-          />
-        ) : avatarUrl ? (
-          <Image
-            source={{ uri: avatarUrl }}
-            style={{ width: 100, height: 100, borderRadius: 50, marginBottom: 10 }}
-          />
-        ) : (
-          <Ionicons
-            name="person-circle-outline"
-            size={100}
-            color={colors.primary}
-            style={{ marginBottom: 10 }}
-          />
-        )}
-      </TouchableOpacity>
       
+      <View style={{ alignItems: 'center' }}>
+        <TouchableOpacity onPress={pickAvatar}>
+          {selectedImage ? (
+            <Image 
+              source={{ uri: selectedImage }}
+              style={{ width: 100, height: 100, borderRadius: 50, marginBottom: 10, }}
+            />
+          ) : avatarUrl ? (
+            <Image
+              source={{ uri: avatarUrl }}
+              style={{ width: 100, height: 100, borderRadius: 50, marginBottom: 10, }}
+            />
+          ) : (
+            <Ionicons
+              name="person-circle-outline"
+              size={100}
+              color={colors.primary}
+              style={{ marginBottom: 10 }}
+            />
+          )}
+        </TouchableOpacity>
+      </View>
+
       <TouchableOpacity
         style={styles.signInButton}
         onPress={pickAvatar}
