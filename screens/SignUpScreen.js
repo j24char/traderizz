@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
   TextInput,
-  Button,
   TouchableOpacity,
 } from 'react-native';
 import { useNavigation, useTheme } from '@react-navigation/native';
-import styles from '../styles/styles';
+import IconImage from '../assets/icon.png';
+import { Image } from 'react-native';
+import { supabase } from '../lib/supabase';
+import { Alert } from 'react-native';
+import createStyles from '../styles/styles';
 
 export default function SignUpScreen() {
   const navigation = useNavigation();
@@ -15,12 +18,56 @@ export default function SignUpScreen() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [isValidPassword, setIsValidPassword] = useState(false);
+  const styles = createStyles(useTheme().dark ? 'dark' : 'light');
+
+  useEffect(() => {
+    const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
+
+    setIsValidPassword(
+      password === confirmPassword &&
+      passwordPattern.test(password)
+    );
+  }, [password, confirmPassword]);
+
+  const createAccount = async () => {
+    if (!isValidPassword) {
+      Alert.alert("Error", "Passwords must match and meet strength requirements.");
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+
+      if (error) {
+        Alert.alert("Sign Up Error", error.message);
+      } else {
+        Alert.alert("Success", "Account created! Check your email to confirm.");
+        navigation.navigate('SignIn'); // Navigate back to sign in screen
+      }
+    } catch (err) {
+      Alert.alert("Unexpected Error", err.message || String(err));
+    }
+  };
+
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Text style={[styles.title, { color: colors.text }]}>Sign Up</Text>
+      <Image
+        source={IconImage}
+        style={styles.logo}
+      />
+
+      <Text style={[styles.sectionTitle]}>
+        Sign Up
+      </Text>
 
       <Text style={[styles.label, { color: colors.text }]}>Email</Text>
+      
       <TextInput
         style={[styles.input, { color: colors.text, borderColor: colors.border }]}
         placeholder="Enter your email"
@@ -32,21 +79,39 @@ export default function SignUpScreen() {
       <Text style={[styles.label, { color: colors.text }]}>Password</Text>
       <TextInput
         style={[styles.input, { color: colors.text, borderColor: colors.border }]}
-        placeholder="Create a password"
+        placeholder="Enter your password"
         placeholderTextColor={colors.border}
         value={password}
         onChangeText={setPassword}
         secureTextEntry
       />
-
-      <Button
-        title="Create Account"
-        color={colors.primary}
-        onPress={() => navigation.navigate('Dashboard')}
+      <Text style={[styles.label, { color: colors.text }]}>Confirm Password</Text>
+      <TextInput
+        style={[styles.input, { color: colors.text, borderColor: colors.border }]}
+        placeholder="Re-enter your password"
+        placeholderTextColor={colors.border}
+        value={confirmPassword}
+        onChangeText={setConfirmPassword}
+        secureTextEntry
       />
 
-      <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
-        <Text style={[styles.linkText, { color: colors.primary }]}>
+      <TouchableOpacity
+        style={[
+          styles.signInButton,
+          { backgroundColor: isValidPassword ? colors.primary : '#ccc' }
+        ]}
+        onPress={createAccount}
+        disabled={!isValidPassword}
+      >
+        <Text style={styles.addButtonText}>Create Account</Text>
+      </TouchableOpacity>
+
+
+      <TouchableOpacity 
+        style={styles.signInButton}
+        onPress={() => navigation.navigate('SignIn')}
+      >
+        <Text style={styles.addButtonText}>
           Already have an account? Sign in
         </Text>
       </TouchableOpacity>

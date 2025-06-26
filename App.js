@@ -5,6 +5,7 @@ import HomeScreen from './screens/HomeScreen';
 import SearchScreen from './screens/SearchScreen';
 import SymbolScreen from './screens/SymbolScreen';
 import SignInScreen from './screens/SignInScreen';
+import SignUpScreen from './screens/SignUpScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import { supabase } from './lib/supabase';
 
@@ -37,6 +38,7 @@ function ProfileStack() {
       
       <Stack.Screen name="SignIn" component={SignInScreen} />
       <Stack.Screen name="ProfileMain" component={ProfileScreen} />
+      <Stack.Screen name="SignUp" component={SignUpScreen} />
       {/* Add more profile-related screens later if needed */}
     </Stack.Navigator>
   );
@@ -99,7 +101,7 @@ export default function App() {
 
   return (
 
-    <NavigationContainer>
+    <NavigationContainer theme={MyLightTheme}>
       <Tab.Navigator
         screenOptions={({ route }) => ({
           headerShown: false, // Hides the top header
