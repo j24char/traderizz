@@ -33,16 +33,18 @@ export default function SearchScreen() {
   });
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.container}>
       
       <View style={styles.searchBarContainer}>
-        <Icon name="search" size={20} color="#888" style={styles.searchIcon} />
+        <Icon name="search" size={20} color={colors.text} style={styles.searchIcon} />
         <TextInput
-            style={styles.title}
-            placeholder="Search for a symbol..."
-            value={query}
-            onChangeText={text => setQuery(text)}
-            onSubmitEditing={Keyboard.dismiss}
+          style={styles.searchInput}
+          placeholder="Search for a symbol..."
+          placeholderTextColor={colors.border}
+          value={query}
+          onChangeText={text => setQuery(text)}
+          onSubmitEditing={Keyboard.dismiss}
         />
       </View>
 
@@ -65,5 +67,6 @@ export default function SearchScreen() {
         )}
       />
     </View>
+    </TouchableWithoutFeedback>
   );
 }

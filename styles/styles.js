@@ -11,8 +11,6 @@ const primaryColorNavy = '#00203f';
 const primaryColorMint = '#adefd1';
 
 const lightColors = {
-  //background: '#fff',
-  //text: '#000',
   background: '#121212',
   text: '#fff',
   card: '#f0f0f0',
@@ -39,7 +37,7 @@ export default function createStyles(mode) {
       flex: 1,
       padding: 16,
       marginTop: 30,
-      backgroundColor: isDark ? '#000' : '#fff',
+      backgroundColor: isDark ? '#121212' : '#fff',
     },
     title: {
         textAlign: 'center',
@@ -77,14 +75,17 @@ export default function createStyles(mode) {
         padding: 10,
         borderBottomWidth: 1,
         borderColor: '#ccc',
-        backgroundColor: isDark ? '#000' : '#fff',
+        borderRadius: 12,
+        backgroundColor: isDark ? '#2a2a2a' : '#f2f2f2',
     },
     feedUser: {
         fontWeight: 'bold',
-        color: primaryColorNavy,
+        color: isDark ? '#fff' : '#000',
+        backgroundColor: isDark ? '#2a2a2a' : '#f2f2f2',
     },
     feedText: {
         fontSize: 14,
+        color: isDark ? '#aaa' : '#333',
     },
     header: {
       fontSize: 24,
@@ -249,26 +250,34 @@ export default function createStyles(mode) {
       textDecorationLine: 'underline',
     },
 
+    // Search Screen Styles:
     searchBarContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#f0f0f0',
-        borderRadius: 25,
+        borderColor: isDark ? '#555' : '#ccc',
+        backgroundColor: isDark ? '#1e1e1e' : '#f9f9f9',
+        borderRadius: 12,
         paddingHorizontal: 12,
-        paddingVertical: 1,
+        paddingVertical: 16,
         marginBottom: 16,
         borderWidth: 1,
-        borderColor: '#ccc',
     },
-
     searchIcon: {
         marginRight: 8,
     },
-
     searchInput: {
         flex: 1,
         fontSize: 16,
-        color: '#000',
+        color: isDark ? '#fff' : '#000',
     },
+
+    // Dashboard Chart Styles:
+    chartColors: {
+      color: primary,
+      labelColor: primary,
+      backgroundColor: isDark ? '#000' : '#fff',
+      backgroundGradientFrom: isDark ? '#000' : '#fff',
+      backgroundGradientTo: isDark ? '#000' : '#fff',
+    }
   });
 }

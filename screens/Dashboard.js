@@ -80,9 +80,9 @@ export default function DashboardScreen() {
         width={styles.screenWidth}
         height={220}
         chartConfig={{
-          backgroundColor: colors.backgroundColor,
-          backgroundGradientFrom: colors.backgroundColor,
-          backgroundGradientTo: colors.backgroundColor,
+          backgroundColor: styles.chartColors.backgroundColor,
+          backgroundGradientFrom: styles.chartColors.backgroundGradientFrom,
+          backgroundGradientTo: styles.chartColors.backgroundGradientTo,
           decimalPlaces: 0,
           color: (opacity = 1) => `rgba(57, 219, 122, ${opacity})`,
           labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
