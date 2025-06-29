@@ -11,10 +11,12 @@ import * as FileSystem from 'expo-file-system';
 import { Buffer } from 'buffer';
 import { Ionicons } from '@expo/vector-icons';
 import IconImage from '../assets/icon.png';
+import { useThemeContext } from '../styles/ThemeContext'; 
 
 export default function HomeScreen() {
-  const { colors } = useTheme();
-  const styles = createStyles(useTheme().dark ? 'dark' : 'light');
+  const { theme, toggleTheme } = useThemeContext();
+  const styles = createStyles(theme.mode);
+  const colors = theme.colors;
   const navigation = useNavigation();
 
   const [user, setUser] = useState(null);
@@ -181,7 +183,7 @@ export default function HomeScreen() {
 
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background, flex: 1 }]}>
+    <View style={[styles.container, {  flex: 1 }]}>
       <Image source={IconImage} style={styles.logo} />
 
       <FlatList

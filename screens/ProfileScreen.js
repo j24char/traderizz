@@ -2,18 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, Alert, ActivityIndicator } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { supabase } from '../lib/supabase';
-import { useTheme } from '@react-navigation/native';
 import createStyles from '../styles/styles';
 import IconImage from '../assets/icon.png';
 import { Ionicons } from '@expo/vector-icons';
 import * as FileSystem from 'expo-file-system';
 import { Buffer } from 'buffer';
 import { useNavigation } from '@react-navigation/native';
+import { useThemeContext } from '../styles/ThemeContext'; 
 
 export default function ProfileScreen() {
-  const { colors } = useTheme();
-  const styles = createStyles(useTheme().dark ? 'dark' : 'light');
-
   const navigation = useNavigation();
 
   const [username, setUsername] = useState('');
@@ -24,7 +21,15 @@ export default function ProfileScreen() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const { theme, toggleTheme } = useThemeContext();
+  const styles = createStyles(theme.mode);
+  const colors = theme.colors;
+
   const user = supabase.auth.getUser(); // Promise, we'll handle in loadProfile
+
+  //console.log("🔍 Current Theme:", dark ? 'Dark' : 'Light');
+  console.log("Theme mode:", theme.mode);
+  //console.log("🎨 Colors in use:", colors);
 
   useEffect(() => {
     loadProfile();
@@ -188,7 +193,7 @@ export default function ProfileScreen() {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
+    <View style={[styles.container]}>
       {loading && <ActivityIndicator size="large" color={colors.primary} />}
       {/* top left logo */}
       <Image
@@ -230,7 +235,7 @@ export default function ProfileScreen() {
         <Text style={styles.addButtonText}>Change Avatar</Text>
       </TouchableOpacity>
 
-      <Text style={{ color: colors.text, marginTop: 20 }}>Username</Text>
+      <Text style={{ marginTop: 20 }}>Username</Text>
       <TextInput
         style={{
           borderWidth: 1,
@@ -269,6 +274,14 @@ export default function ProfileScreen() {
         }}>
         {email}
       </Text>
+
+      <TouchableOpacity style={[styles.signInButton, { marginTop: 10 }]}
+        onPress={toggleTheme}
+      >
+        <Text style={styles.addButtonText}>
+          Switch to {theme.mode === 'light' ? 'Dark' : 'Light'} Mode
+        </Text>
+      </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.signInButton}

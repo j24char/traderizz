@@ -11,17 +11,19 @@ import { Image } from 'react-native';
 import { supabase } from '../lib/supabase';
 import { Alert } from 'react-native';
 import createStyles from '../styles/styles';
+import { useThemeContext } from '../styles/ThemeContext';
 
 export default function SignUpScreen() {
   const navigation = useNavigation();
-  const { colors } = useTheme();
+  const { theme, toggleTheme } = useThemeContext();
+  const styles = createStyles(theme.mode);
+  const colors = theme.colors;
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isValidPassword, setIsValidPassword] = useState(false);
-  const styles = createStyles(useTheme().dark ? 'dark' : 'light');
-
+  
   useEffect(() => {
     const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
 

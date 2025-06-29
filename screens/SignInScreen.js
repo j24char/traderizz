@@ -12,16 +12,17 @@ import { supabase } from '../lib/supabase';
 
 import IconImage from '../assets/icon.png';
 import { Image } from 'react-native';
-
+import { useThemeContext } from '../styles/ThemeContext';
 
 
 export default function SignInScreen() {
   const navigation = useNavigation();
-  const { colors } = useTheme();
+  const { theme, toggleTheme } = useThemeContext();
+  const styles = createStyles(theme.mode);
+  const colors = theme.colors;
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const styles = createStyles(useTheme().dark ? 'dark' : 'light');
 
   const signIn = async () => {
     try {

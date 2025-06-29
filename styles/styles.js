@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions, Appearance } from 'react-native';
+import { useTheme } from '@react-navigation/native';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -10,8 +11,10 @@ const primaryColorNavy = '#00203f';
 const primaryColorMint = '#adefd1';
 
 const lightColors = {
-  background: '#fff',
-  text: '#000',
+  //background: '#fff',
+  //text: '#000',
+  background: '#121212',
+  text: '#fff',
   card: '#f0f0f0',
   border: '#ccc',
   iconColor: '#39db7a',
@@ -25,8 +28,9 @@ const darkColors = {
   iconColor: '#39db7a',
 };
 
-export default function createStyles(colorScheme = Appearance.getColorScheme()) {
-  const colors = colorScheme === 'dark' ? darkColors : lightColors;
+export default function createStyles(mode) {
+  const isDark = mode === 'dark';
+  const { colors } = useTheme();
 
   return StyleSheet.create({
     screenWidth,
@@ -35,7 +39,7 @@ export default function createStyles(colorScheme = Appearance.getColorScheme()) 
       flex: 1,
       padding: 16,
       marginTop: 30,
-      backgroundColor: colors.background,
+      backgroundColor: isDark ? '#000' : '#fff',
     },
     title: {
         textAlign: 'center',
@@ -63,14 +67,17 @@ export default function createStyles(colorScheme = Appearance.getColorScheme()) 
         fontSize: 18,
         fontWeight: 'bold',
         marginVertical: 8,
+        backgroundColor: isDark ? '#000' : '#fff',
     },
     feedContainer: {
         flex: 1,
+        backgroundColor: isDark ? '#000' : '#fff',
     },
     feedItem: {
         padding: 10,
         borderBottomWidth: 1,
         borderColor: '#ccc',
+        backgroundColor: isDark ? '#000' : '#fff',
     },
     feedUser: {
         fontWeight: 'bold',
@@ -84,6 +91,7 @@ export default function createStyles(colorScheme = Appearance.getColorScheme()) 
       fontWeight: 'bold',
       color: primary,
       marginBottom: 16,
+      backgroundColor: isDark ? '#000' : '#fff',
     },
     centeredText: {
       textAlign: 'center',

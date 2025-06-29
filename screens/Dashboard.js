@@ -9,10 +9,13 @@ import {
 } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import createStyles from '../styles/styles';
+import { useThemeContext } from '../styles/ThemeContext'; 
 
 export default function DashboardScreen() {
-  const styles = createStyles();
-
+  const { theme, toggleTheme } = useThemeContext();
+  const styles = createStyles(theme.mode);
+  const colors = theme.colors;
+  
   const [modalVisible, setModalVisible] = useState(false);
   const [tradeData, setTradeData] = useState([
     { date: '2025-06-01', quantity: 10, symbol: 'AAPL' },
@@ -77,9 +80,9 @@ export default function DashboardScreen() {
         width={styles.screenWidth}
         height={220}
         chartConfig={{
-          backgroundColor: '#ffffff',
-          backgroundGradientFrom: '#ffffff',
-          backgroundGradientTo: '#ffffff',
+          backgroundColor: colors.backgroundColor,
+          backgroundGradientFrom: colors.backgroundColor,
+          backgroundGradientTo: colors.backgroundColor,
           decimalPlaces: 0,
           color: (opacity = 1) => `rgba(57, 219, 122, ${opacity})`,
           labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,

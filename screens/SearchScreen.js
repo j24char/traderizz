@@ -12,11 +12,15 @@ import { useNavigation } from '@react-navigation/native';
 import stylesFactory from '../styles/styles';
 import SymbolData from '../assets/sp500symbols.json';
 import Icon from 'react-native-vector-icons/Ionicons';
+import createStyles from '../styles/styles';
+import { useThemeContext } from '../styles/ThemeContext';
 
 
 export default function SearchScreen() {
   const navigation = useNavigation();
-  const styles = stylesFactory();
+  const { theme, toggleTheme } = useThemeContext();
+  const styles = createStyles(theme.mode);
+  const colors = theme.colors;
   const [query, setQuery] = useState('');
 
   const filteredSymbols = SymbolData.filter(item => {

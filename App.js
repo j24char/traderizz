@@ -7,9 +7,11 @@ import SymbolScreen from './screens/SymbolScreen';
 import SignInScreen from './screens/SignInScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import { StatusBar } from 'react-native';
 import { supabase } from './lib/supabase';
 
 import { DefaultTheme, DarkTheme, NavigationContainer } from '@react-navigation/native';
+import { ThemeProvider, useThemeContext } from './styles/ThemeContext';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -71,7 +73,16 @@ const MyDarkTheme = {
 };
 
 export default function App() {
+  return (
+    <ThemeProvider>
+      <MainApp />
+    </ThemeProvider>
+  )
+}
+
+function MainApp() {
   const [user, setUser] = useState(null);
+  const { theme } = useThemeContext();
 
   useEffect(() => {
     // 1. Check existing session on app startup
@@ -100,8 +111,11 @@ export default function App() {
   }, []);
 
   return (
-
-    <NavigationContainer theme={MyLightTheme}>
+    <>
+    <StatusBar 
+      barStyle={theme.mode === 'dark' ? 'light-content' : 'dark-content'}
+    />
+    <NavigationContainer theme={theme}>
       <Tab.Navigator
         screenOptions={({ route }) => ({
           headerShown: false, // Hides the top header
@@ -149,5 +163,6 @@ export default function App() {
         />
       </Tab.Navigator>
     </NavigationContainer>
+    </>
   );
 }
