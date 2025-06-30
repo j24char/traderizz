@@ -170,30 +170,31 @@ export default function createStyles(mode) {
 
     tile: {
       flexDirection: 'row',
-      backgroundColor: '#f5f5f5',
+      backgroundColor: isDark ? '#1e1e1e' : '#f9f9f9',
+      color: isDark ? '#fff' : '#000',
+      borderColor: isDark ? '#555' : '#ccc',
       padding: 16,
       marginTop: 5,
       marginBottom: 5,
       borderRadius: 12,
       alignItems: 'center',
       justifyContent: 'center',
-      borderColor: '#ccc',
       borderWidth: 1,
     },
     tileSymbol: {
       fontSize: 18,
       fontWeight: 'bold',
-      color: '#333',
+      color: isDark ? '#fff' : '#000',
       marginLeft: 20,
     },
     tileGainLoss: {
       fontSize: 16,
-      color: '#333',
+      color: isDark ? '#fff' : '#000',
       marginLeft: 90,
     },
     tileDate: {
       fontSize: 16,
-      color: '#333',
+      color: isDark ? '#fff' : '#000',
     },
 
     // MODAL STYLES
@@ -271,13 +272,21 @@ export default function createStyles(mode) {
         color: isDark ? '#fff' : '#000',
     },
 
-    // Dashboard Chart Styles:
+    // Dashboard Screen Styles:
     chartColors: {
       color: primary,
       labelColor: primary,
       backgroundColor: isDark ? '#000' : '#fff',
       backgroundGradientFrom: isDark ? '#000' : '#fff',
       backgroundGradientTo: isDark ? '#000' : '#fff',
-    }
+    },
+    positionsHeading: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: primary,
+      marginTop: 20,
+      marginBottom: 4,
+      backgroundColor: isDark ? '#000' : '#fff',
+    },
   });
 }
