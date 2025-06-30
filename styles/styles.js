@@ -224,6 +224,9 @@ export default function createStyles(mode) {
       marginBottom: 10,
       textAlign: 'center',
     },
+    modalText: {
+      color: '#fff',
+    },
     dateButton: {
       padding: 10,
       backgroundColor: '#fff',

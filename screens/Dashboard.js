@@ -11,6 +11,7 @@ import {
 import { LineChart } from 'react-native-chart-kit';
 import { useThemeContext } from '../styles/ThemeContext';
 import createStyles from '../styles/styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function DashboardScreen() {
   const { theme } = useThemeContext();
@@ -175,6 +176,7 @@ export default function DashboardScreen() {
         />
       )}
 
+      <Text style={styles.positionsHeading}>Current Positions</Text>
       <ScrollView style={styles.feedContainer}>
         {holdings.map((item, index) => (
           <TouchableOpacity
